@@ -2,28 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background: 0 0% 98%;
+    --foreground: 200 15% 8%;
+    --primary: 0 0% 100%;
+    --input-foreground: 0 0% 52%;
+    --font-sans: "Nunito Sans";
   }
-}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  .dark {
+    --background: 207 26% 17%;
+    --foreground: 0 0% 100%;
+    --primary: 209 23% 22%;
+    --input-foreground: 0 0% 100%;
+  }
+
+  body {
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+
+  input {
+    color: hsl(var(--input-foreground));
+  }
 }
 
 @layer utilities {
