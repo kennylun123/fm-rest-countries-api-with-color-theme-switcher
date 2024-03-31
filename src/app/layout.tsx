@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Nunito_Sans as FontSans } from "next/font/google";
-import "./globals.css";
-import PageHeader from "@/components/page-header";
 import { ThemeProvider } from "@/components/theme-provider";
+import PageHeader from "@/components/page-header";
+import "./globals.css";
 
 const fontSans = FontSans({ subsets: ["latin"], variable: "--font-sans" });
 

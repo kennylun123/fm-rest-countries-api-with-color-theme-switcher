@@ -6,7 +6,11 @@ const PageHeader = () => {
   return (
     <header className="w-full bg-primary shadow-sm">
       <div className="container mx-auto h-20 flex items-center justify-between px-4">
-        <Link href="/" className="font-extrabold text-sm lg:text-xl">
+        <Link
+          href="/"
+          className="font-extrabold text-sm lg:text-xl"
+          aria-label="Home page"
+        >
           Where in the world?
         </Link>
         <ModeToggle />
