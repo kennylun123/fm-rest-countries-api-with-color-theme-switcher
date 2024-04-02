@@ -55,3 +55,20 @@ export async function fetchCountriesByName(name: string) {
     throw new Error("Failed to fetch countries.");
   }
 }
+
+export async function fetchCountryDetailsByName(name: string) {
+  try {
+    const response = await fetch(
+      `https://restcountries.com/v3.1/name/${name}?fields=name,flags,population,region,capital,nativeName,subregion,tld,currencies,languages,borders`
+    );
+
+    if (!response.ok) {
+      return { status: response.status };
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Fetching Error:", error);
+    throw new Error("Failed to fetch countries.");
+  }
+}

@@ -11,7 +11,7 @@ const Card = ({
 }: CountryProps) => {
   return (
     <Link
-      href="/"
+      href={`/detail/${name}`}
       className="w-[262px] h-[336px] rounded-md shadow-md bg-primary overflow-hidden transition-all hover:scale-105"
     >
       <div className="relative w-full h-[160px]">

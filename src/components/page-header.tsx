@@ -4,7 +4,7 @@ import { ModeToggle } from "./ui/mode-toggle";
 
 const PageHeader = () => {
   return (
-    <header className="w-full bg-primary shadow-sm">
+    <header className="relative w-full bg-primary shadow-sm z-50">
       <div className="container mx-auto h-20 flex items-center justify-between px-4">
         <Link
           href="/"
