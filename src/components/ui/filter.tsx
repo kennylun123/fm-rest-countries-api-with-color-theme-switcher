@@ -16,15 +16,13 @@ const Filter = ({ placeholder }: { placeholder: string }) => {
 
   const handleSelect = (selection: string) => {
     const params = new URLSearchParams(searchParams);
-    params.delete("name");
 
-    params;
     if (selection) {
       params.set("region", selection);
     } else {
       params.delete("region");
     }
-    replace(`${pathname}?${params.toString()}`);
+    replace(`${pathname}?${params.toString().toLowerCase()}`);
   };
 
   const regions = [
@@ -34,7 +32,7 @@ const Filter = ({ placeholder }: { placeholder: string }) => {
     },
     {
       key: 1,
-      title: "America",
+      title: "Americas",
     },
     {
       key: 2,

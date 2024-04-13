@@ -1,11 +1,7 @@
 import Card from "@/components/ui/card";
 import Filter from "@/components/ui/filter";
 import Search from "@/components/ui/search";
-import {
-  fetchCountries,
-  fetchCountriesByName,
-  fetchCountriesByRegion,
-} from "@/lib/data";
+import { fetchCountries } from "@/lib/data";
 import { CountryProps } from "@/lib/definitions";
 
 export default async function Home({
@@ -18,17 +14,35 @@ export default async function Home({
 }) {
   const name = searchParams?.name || "";
   const region = searchParams?.region || "";
-  console.log(name);
-  console.log(region);
+  // console.log(name);
+  // console.log(region);
 
-  // const countries =
-  //   (name && (await fetchCountriesByName(name))) ||
-  //   (region && (await fetchCountriesByRegion(region))) ||
-  //   (await fetchCountries());
+  const countries: CountryProps[] = await fetchCountries();
+  let filteredCountries: CountryProps[] = countries;
 
-  const countries = await fetchCountries();
+  // Filter the countries with input & region
+  if (!!name && !!region) {
+    filteredCountries = countries?.filter((item) =>
+      item.name.common.toLowerCase().includes(name)
+    );
+    filteredCountries = filteredCountries.filter(
+      (item) => item.region.toLowerCase() === region
+    );
+  }
 
-  console.log(countries);
+  // Filter the countries with input
+  else if (!!name) {
+    filteredCountries = countries?.filter((item) =>
+      item.name.common.toLowerCase().includes(name)
+    );
+  }
+
+  // Filter the countries with selected region
+  else if (!!region) {
+    filteredCountries = countries?.filter(
+      (item) => item.region.toLowerCase() === region
+    );
+  }
 
   return (
     <main className="min-h-screen container mx-auto px-4 py-6">
@@ -44,7 +58,7 @@ export default async function Home({
         </div>
       ) : (
         <section className="mt-6 grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-16 justify-items-center">
-          {countries.map((country: CountryProps) => (
+          {filteredCountries.map((country: CountryProps) => (
             <Card key={country.name.common} {...country} />
           ))}
         </section>

@@ -13,14 +13,13 @@ const Search = ({ placeholder }: { placeholder: string }) => {
   // Debouncing, execute below code when user finish typing after 300ms.
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
-    params.delete("region");
 
     if (term) {
       params.set("name", term);
     } else {
       params.delete("name");
     }
-    replace(`${pathname}?${params.toString()}`);
+    replace(`${pathname}?${params.toString().toLowerCase()}`);
   }, 300);
 
   return (

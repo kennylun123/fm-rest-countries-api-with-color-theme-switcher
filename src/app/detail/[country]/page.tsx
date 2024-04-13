@@ -18,7 +18,6 @@ export default async function Page({
   const [country]: [CountryProps] = await fetchCountryDetailsByName(
     params.country
   );
-  // console.log(country);
 
   // Extract names of currencies into an array
   const currencyNames = Object.values<Currency>(country.currencies).map(
