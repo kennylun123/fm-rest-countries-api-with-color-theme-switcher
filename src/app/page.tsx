@@ -18,11 +18,17 @@ export default async function Home({
 }) {
   const name = searchParams?.name || "";
   const region = searchParams?.region || "";
+  console.log(name);
+  console.log(region);
 
-  const countries =
-    (name && (await fetchCountriesByName(name))) ||
-    (region && (await fetchCountriesByRegion(region))) ||
-    (await fetchCountries());
+  // const countries =
+  //   (name && (await fetchCountriesByName(name))) ||
+  //   (region && (await fetchCountriesByRegion(region))) ||
+  //   (await fetchCountries());
+
+  const countries = await fetchCountries();
+
+  console.log(countries);
 
   return (
     <main className="min-h-screen container mx-auto px-4 py-6">
