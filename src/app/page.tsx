@@ -49,7 +49,7 @@ export default async function Home({
       <h1 className="sr-only">Rest Countries API Challenge</h1>
       <div className="flex flex-col lg:flex-row gap-10 items-start justify-between">
         <Search placeholder="Search for a country..." />
-        <Filter placeholder="Filter by Region" />
+        <Filter />
       </div>
 
       {countries.status === 404 ? (
