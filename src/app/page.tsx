@@ -18,23 +18,30 @@ export default async function Home({
   // console.log(region);
 
   const countries: CountryProps[] = await fetchCountries();
+
   let filteredCountries: CountryProps[] = countries;
 
   // Filter the countries with input & region
   if (!!name && !!region) {
-    filteredCountries = countries?.filter((item) =>
-      item.name.common.toLowerCase().includes(name)
-    );
+    filteredCountries = countries?.filter((item) => {
+      return (
+        item.cca3.toLowerCase().includes(name) ||
+        item.name.common.toLowerCase().includes(name)
+      );
+    });
     filteredCountries = filteredCountries.filter(
       (item) => item.region.toLowerCase() === region
     );
   }
 
-  // Filter the countries with input
+  // Filter the countries with input. name or cca2 code
   else if (!!name) {
-    filteredCountries = countries?.filter((item) =>
-      item.name.common.toLowerCase().includes(name)
-    );
+    filteredCountries = countries?.filter((item) => {
+      return (
+        item.cca3.toLowerCase().includes(name) ||
+        item.name.common.toLowerCase().includes(name)
+      );
+    });
   }
 
   // Filter the countries with selected region
@@ -44,6 +51,9 @@ export default async function Home({
     );
   }
 
+  // console.log(countries);
+  console.log(filteredCountries);
+
   return (
     <main className="min-h-screen container mx-auto px-4 py-6">
       <h1 className="sr-only">Rest Countries API Challenge</h1>
@@ -52,7 +62,7 @@ export default async function Home({
         <Filter />
       </div>
 
-      {countries.status === 404 ? (
+      {filteredCountries.length === 0 ? (
         <div className="mt-6 font-semibold text-center">
           Sorry, no matched country!
         </div>
@@ -66,3 +76,9 @@ export default async function Home({
     </main>
   );
 }
+
+// 13-4-2024 TBC
+// 1. Navigate via clicking border countries in detail page. OK
+// 2. Responsive detail page UI (desktop)
+// 3. Error handling when fetch failure. OK
+// 4. Skeleton, Suspense

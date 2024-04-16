@@ -3,7 +3,10 @@ import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { fetchCountryDetailsByName } from "@/lib/data";
+import {
+  fetchCountryDetailsByName,
+  getCountriesNamesByBorders,
+} from "@/lib/data";
 import { CountryProps, Currency, NativeName } from "@/lib/definitions";
 
 export const metadata: Metadata = {
@@ -19,18 +22,29 @@ export default async function Page({
     params.country
   );
 
-  // Extract names of currencies into an array
+  console.log(country);
+
+  // Extract value of currencies into array
   const currencyNames = Object.values<Currency>(country.currencies).map(
     (currency) => currency.name
   );
 
-  // Extract languages into an array
+  // Extract value of languages into array
   const languages = Object.values(country.languages);
 
-  // Extract native name
-  const nativeName = Object.values<NativeName>(country.name.nativeName).map(
+  // Extract native names
+  const nativeNames = Object.values<NativeName>(country.name.nativeName).map(
     (item) => item.common
   );
+
+  // Turn border code to border name
+  let borderNames = [];
+  if (country.borders.length > 0) {
+    const res = await getCountriesNamesByBorders(country.borders);
+
+    // Extract the value of name.common into array
+    borderNames = res.map((item) => item.name.common);
+  }
 
   return (
     <main className="min-h-screen">
@@ -59,7 +73,7 @@ export default async function Page({
               <div className="space-y-2">
                 <div className="font-semibold">
                   Native Name:{" "}
-                  <span className="font-light">{nativeName.join(", ")}</span>
+                  <span className="font-light">{nativeNames[0]}</span>
                 </div>
                 <div className="font-semibold">
                   Population:{" "}
@@ -94,17 +108,17 @@ export default async function Page({
                 </div>
               </div>
             </div>
-            {country.borders.length > 0 && (
+            {borderNames.length > 0 && (
               <div className="mt-8 inline-flex flex-col gap-4">
                 Border Countries:
                 <div className="inline-flex flex-wrap gap-2">
-                  {country.borders.map((border: string) => (
+                  {borderNames.map((border: string) => (
                     <Button
                       key={border}
                       asChild
                       className="px-6 shadow-[0_0_10px_-4px_rgba(0,0,0,0.4)] text-base font-light"
                     >
-                      <Link href={`/`}>{border}</Link>
+                      <Link href={`/detail/${border}`}>{border}</Link>
                     </Button>
                   ))}
                 </div>

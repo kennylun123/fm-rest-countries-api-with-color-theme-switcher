@@ -17,6 +17,7 @@ export type CountryProps = {
   languages: {};
   borders: string[];
   population: number;
+  cca3: string;
 };
 
 export type Currency = {
