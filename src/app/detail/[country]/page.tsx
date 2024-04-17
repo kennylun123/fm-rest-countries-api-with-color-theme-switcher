@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,6 +6,8 @@ import {
   getCountriesNamesByBorders,
 } from "@/lib/data";
 import { CountryProps, Currency, NativeName } from "@/lib/definitions";
+import BackButton from "@/components/ui/back-button";
+import BorderButton from "@/components/ui/border-button";
 
 export const metadata: Metadata = {
   title: "Detail page",
@@ -46,15 +46,7 @@ export default async function Page({
 
   return (
     <main className="min-h-screen container mx-auto px-8 py-10 lg:px-4">
-      <Button
-        asChild
-        className="group px-6 shadow-[0_0_10px_-4px_rgba(0,0,0,0.4)] text-base font-light"
-      >
-        <Link href="/" className="font-light">
-          <ArrowLeftIcon className="mr-2 h-6 w-6 transition-all group-hover:-translate-x-2" />
-          Back
-        </Link>
-      </Button>
+      <BackButton />
       <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2 items-center">
         <Image
           src={country.flags.svg}
@@ -110,17 +102,10 @@ export default async function Page({
               Border Countries:
               <div className="inline-flex flex-wrap gap-2">
                 {borderNames.map((border: string, index) => (
-                  <Button
-                    key={border}
-                    asChild
-                    className="px-6 shadow-[0_0_10px_-4px_rgba(0,0,0,0.4)] text-base font-light"
-                  >
-                    <Link
-                      href={`/detail/${country.borders[index].toLowerCase()}`}
-                    >
-                      {border}
-                    </Link>
-                  </Button>
+                  <BorderButton
+                    url={`/detail/${country.borders[index].toLowerCase()}`}
+                    border={border}
+                  />
                 ))}
               </div>
             </div>

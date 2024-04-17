@@ -28,3 +28,8 @@ export type Currency = {
 export type NativeName = {
   common: string;
 };
+
+export type BorderButtonProps = {
+  url: string;
+  border: string;
+};

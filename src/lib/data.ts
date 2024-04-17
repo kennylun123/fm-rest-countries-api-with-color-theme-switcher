@@ -1,8 +1,5 @@
 "use server";
 
-import { error } from "console";
-import { unstable_noStore as noStore } from "next/cache";
-
 export async function fetchCountries() {
   try {
     const response = await fetch(
@@ -21,6 +18,8 @@ export async function fetchCountries() {
 }
 
 export async function fetchCountryDetailsByCCA3(cca3: string) {
+  // Testing skeleton
+  // await new Promise((resolve) => setTimeout(resolve, 3000));
   try {
     const response = await fetch(
       `https://restcountries.com/v3.1/alpha/${cca3}?fields=name,flags,population,region,capital,nativeName,subregion,tld,currencies,languages,borders`
