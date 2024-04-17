@@ -20,10 +20,10 @@ export async function fetchCountries() {
   }
 }
 
-export async function fetchCountryDetailsByName(name: string) {
+export async function fetchCountryDetailsByCCA3(cca3: string) {
   try {
     const response = await fetch(
-      `https://restcountries.com/v3.1/name/${name}?fields=name,flags,population,region,capital,nativeName,subregion,tld,currencies,languages,borders`
+      `https://restcountries.com/v3.1/alpha/${cca3}?fields=name,flags,population,region,capital,nativeName,subregion,tld,currencies,languages,borders`
     );
 
     if (!response.ok) {

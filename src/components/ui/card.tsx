@@ -5,13 +5,14 @@ import { CountryProps } from "@/lib/definitions";
 const Card = ({
   flags,
   name: { common: name },
+  cca3,
   population,
   region,
   capital,
 }: CountryProps) => {
   return (
     <Link
-      href={`/detail/${name.toLowerCase()}`}
+      href={`/detail/${cca3.toLowerCase()}`}
       className="w-[262px] h-[336px] rounded-md shadow-md bg-primary overflow-hidden transition-all hover:scale-105"
     >
       <div className="relative w-full h-[160px]">

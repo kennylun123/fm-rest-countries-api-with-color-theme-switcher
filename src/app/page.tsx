@@ -8,25 +8,23 @@ export default async function Home({
   searchParams,
 }: {
   searchParams?: {
-    name?: string;
+    country?: string;
     region?: string;
   };
 }) {
-  const name = searchParams?.name || "";
+  const country = searchParams?.country || "";
   const region = searchParams?.region || "";
-  // console.log(name);
-  // console.log(region);
 
   const countries: CountryProps[] = await fetchCountries();
 
   let filteredCountries: CountryProps[] = countries;
 
   // Filter the countries with input & region
-  if (!!name && !!region) {
+  if (!!country && !!region) {
     filteredCountries = countries?.filter((item) => {
       return (
-        item.cca3.toLowerCase().includes(name) ||
-        item.name.common.toLowerCase().includes(name)
+        item.cca3.toLowerCase().includes(country) ||
+        item.name.common.toLowerCase().includes(country)
       );
     });
     filteredCountries = filteredCountries.filter(
@@ -35,11 +33,11 @@ export default async function Home({
   }
 
   // Filter the countries with input. name or cca2 code
-  else if (!!name) {
+  else if (!!country) {
     filteredCountries = countries?.filter((item) => {
       return (
-        item.cca3.toLowerCase().includes(name) ||
-        item.name.common.toLowerCase().includes(name)
+        item.cca3.toLowerCase().includes(country) ||
+        item.name.common.toLowerCase().includes(country)
       );
     });
   }
@@ -52,7 +50,7 @@ export default async function Home({
   }
 
   // console.log(countries);
-  console.log(filteredCountries);
+  // console.log(filteredCountries);
 
   return (
     <main className="min-h-screen container mx-auto px-4 py-6">
@@ -79,6 +77,6 @@ export default async function Home({
 
 // 13-4-2024 TBC
 // 1. Navigate via clicking border countries in detail page. OK
-// 2. Responsive detail page UI (desktop)
+// 2. Responsive detail page UI (desktop). OK
 // 3. Error handling when fetch failure. OK
 // 4. Skeleton, Suspense
