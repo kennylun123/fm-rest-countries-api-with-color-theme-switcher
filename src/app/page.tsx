@@ -80,4 +80,9 @@ export default async function Home({
 // 2. Responsive detail page UI (desktop). OK
 // 3. Error handling when fetch failure. OK
 // 4. Skeleton, Suspense. OK
+
 // 5. Bug: navigate between pages won't scroll to top
+
+// 6. Theme toggle, filter navigate with keyboard doesn't work
+// 7. Filter state lost when refresh
+// Suggestion: Use another component

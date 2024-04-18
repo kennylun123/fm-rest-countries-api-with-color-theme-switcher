@@ -61,6 +61,8 @@ const Filter = () => {
     replace(`${pathname}?${params.toString().toLowerCase()}`);
   };
 
+  console.log(value);
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -83,7 +85,7 @@ const Filter = () => {
               {options.map((opt) => (
                 <CommandItem
                   key={opt.value}
-                  className="transition-all hover:bg-black/10 dark:hover:bg-white/10"
+                  className="transition-all hover:bg-black/10 focus:bg-black/10 dark:hover:bg-white/10 dark:focus:bg-white/10"
                   value={opt.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
