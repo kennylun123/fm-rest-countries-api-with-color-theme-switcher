@@ -53,7 +53,7 @@ export default async function Home({
   // console.log(filteredCountries);
 
   return (
-    <main className="min-h-screen container mx-auto px-4 py-6">
+    <main className="min-h-[calc(100vh_-_80px)] container mx-auto px-4 py-6">
       <h1 className="sr-only">Rest Countries API Challenge</h1>
       <div className="flex flex-col lg:flex-row gap-10 items-start justify-between">
         <Search placeholder="Search for a country..." />
@@ -79,5 +79,5 @@ export default async function Home({
 // 1. Navigate via clicking border countries in detail page. OK
 // 2. Responsive detail page UI (desktop). OK
 // 3. Error handling when fetch failure. OK
-// 4. Skeleton, Suspense
+// 4. Skeleton, Suspense. OK
 // 5. Bug: navigate between pages won't scroll to top

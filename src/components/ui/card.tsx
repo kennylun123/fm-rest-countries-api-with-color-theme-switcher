@@ -14,6 +14,7 @@ const Card = ({
     <Link
       href={`/detail/${cca3.toLowerCase()}`}
       className="w-[262px] h-[336px] rounded-md shadow-md bg-primary overflow-hidden transition-all hover:scale-105"
+      scroll={false}
     >
       <div className="relative w-full h-[160px]">
         <Image
