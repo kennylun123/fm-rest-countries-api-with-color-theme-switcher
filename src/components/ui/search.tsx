@@ -5,7 +5,7 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
-const Search = ({ placeholder }: { placeholder: string }) => {
+const Search = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -27,7 +27,7 @@ const Search = ({ placeholder }: { placeholder: string }) => {
       <Input
         id="search"
         className="h-14 pl-16 py-6 text-xs border-none shadow-md bg-primary placeholder:text-black/30 dark:placeholder:text-white"
-        placeholder={placeholder}
+        placeholder={"Search for a country..."}
         onChange={(e) => handleSearch(e.target.value)}
         defaultValue={searchParams.get("country")?.toString() || ""}
       />

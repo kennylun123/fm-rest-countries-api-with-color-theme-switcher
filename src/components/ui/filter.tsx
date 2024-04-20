@@ -1,21 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
-
-import { cn } from "@/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandGroup,
-  CommandList,
-  CommandItem,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { ChevronDown } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const options = [
   {
@@ -39,74 +34,51 @@ const options = [
     label: "Oceania",
   },
 ];
-
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
 const Filter = () => {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
-
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
+  const regionParam = searchParams.get("region")?.toString() || "";
+
   const setSearchParams = (selection: string) => {
     const params = new URLSearchParams(searchParams);
 
-    if (selection) {
-      params.set("region", selection);
-    } else {
+    if (selection === regionParam) {
       params.delete("region");
+    } else {
+      params.set("region", selection);
     }
     replace(`${pathname}?${params.toString().toLowerCase()}`);
   };
 
-  console.log(value);
-
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="justify-between w-[180px] h-14 px-6 bg-primary border-none shadow-md"
-        >
-          {value
-            ? options.find((opt) => opt.value === value)?.label
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button className="w-[180px] h-14 px-6 bg-primary border-none shadow-md justify-between">
+          {regionParam
+            ? options.find((opt) => opt.value === regionParam)?.label
             : "Filter by Region"}
-          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50 dark:opacity-100" />
+          <ChevronDown className="h-4 w-4 " />
         </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[180px] p-0 bg-primary border-none">
-        <Command>
-          <CommandGroup>
-            <CommandList>
-              {options.map((opt) => (
-                <CommandItem
-                  key={opt.value}
-                  className="transition-all hover:bg-black/10 focus:bg-black/10 dark:hover:bg-white/10 dark:focus:bg-white/10"
-                  value={opt.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
-                    setOpen(false);
-                    setSearchParams(currentValue === value ? "" : currentValue);
-                  }}
-                >
-                  {opt.label}
-                  <CheckIcon
-                    className={cn(
-                      "ml-auto h-4 w-4",
-                      value === opt.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                </CommandItem>
-              ))}
-            </CommandList>
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-    </Popover>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-[180px] bg-primary border-none">
+        <DropdownMenuRadioGroup
+          value={regionParam}
+          onValueChange={(value) => setSearchParams(value)}
+        >
+          {options.map((opt) => (
+            <DropdownMenuRadioItem
+              key={opt.value}
+              className="transition-all hover:bg-black/10 focus:bg-black/10 dark:hover:bg-white/10 dark:focus:bg-white/10"
+              value={opt.value}
+            >
+              {opt.label}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
