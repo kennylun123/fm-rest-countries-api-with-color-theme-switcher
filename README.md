@@ -1,6 +1,6 @@
 # Frontend Mentor - REST Countries API with color theme switcher solution
 
-This is a solution to the [REST Countries API with color theme switcher challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca). Frontend Mentor challenges help you improve your coding skills by building realistic projects. 
+This is a solution to the [REST Countries API with color theme switcher challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
 ## Table of contents
 
@@ -11,12 +11,8 @@ This is a solution to the [REST Countries API with color theme switcher challeng
 - [My process](#my-process)
   - [Built with](#built-with)
   - [What I learned](#what-i-learned)
-  - [Continued development](#continued-development)
-  - [Useful resources](#useful-resources)
+- [Continued development](#continued-development)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
-
-**Note: Delete this note and update the table of contents based on what sections you keep.**
 
 ## Overview
 
@@ -29,24 +25,19 @@ Users should be able to:
 - Filter countries by region
 - Click on a country to see more detailed information on a separate page
 - Click through to the border countries on the detail page
-- Toggle the color scheme between light and dark mode *(optional)*
+- Toggle the color scheme between light and dark mode _(optional)_
 
 ### Screenshot
 
-![](./screenshot.jpg)
-
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
-
-Alternatively, you can use a tool like [FireShot](https://getfireshot.com/) to take the screenshot. FireShot has a free option, so you don't need to purchase it. 
-
-Then crop/optimize/edit your image however you like, add it to your project, and update the file path in the image above.
-
-**Note: Delete this note and the paragraphs above when you add your screenshot. If you prefer not to add a screenshot, feel free to remove this entire section.**
+<img src="./screenshots/rest-countries-home-mobile.png" width="400px">
+<img src="./screenshots/rest-countries-detail-mobile.png" width="400px">
+<img src="./screenshots/rest-countries-home-desktop.png" width="600px">
+<img src="./screenshots/rest-countries-detail-desktop.png" width="400px">
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: [https://www.frontendmentor.io/solutions/responsive-rest-countries-with-nextjs-14-server-side-rendering-shadcn-kLj-OY4bWH](https://www.frontendmentor.io/solutions/responsive-rest-countries-with-nextjs-14-server-side-rendering-shadcn-kLj-OY4bWH)
+- Live Site URL: [https://fm-rest-countries-api-with-color-theme-switcher.vercel.app/](https://fm-rest-countries-api-with-color-theme-switcher.vercel.app/)
 
 ## My process
 
@@ -57,59 +48,93 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - Flexbox
 - CSS Grid
 - Mobile-first workflow
-- [React](https://reactjs.org/) - JS library
 - [Next.js](https://nextjs.org/) - React framework
-- [Styled Components](https://styled-components.com/) - For styles
-
-**Note: These are just examples. Delete this note and replace the list above with your own choices**
+- TypeScript
+- TailwindCSS
+- shadcn/ui
 
 ### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+- Utilized `seachParams` in NextJS server component. Get and set data via searchParam.
+  https://nextjs.org/docs/app/api-reference/functions/use-search-params#searchparams-optional
 
-To see how you can add code snippets, see below:
+Get data from props of home page:
 
-```html
-<h1>Some HTML code I'm proud of</h1>
+```ts
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: {
+    country?: string;
+    region?: string;
+  };
+}) {
+  const country = searchParams?.country || "";
+  const region = searchParams?.region || "";
 ```
-```css
-.proud-of-this-css {
-  color: papayawhip;
+
+Set data inside a component, for example `<Search />`:
+
+```ts
+const Search = () => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  // Debouncing, execute below code when user finish typing after 300ms.
+  const handleSearch = useDebouncedCallback((term) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (term) {
+      params.set("country", term);
+    } else {
+      params.delete("country");
+    }
+    replace(`${pathname}?${params.toString().toLowerCase()}`);
+  }, 300);
+```
+
+- Similar with `useParams` to pass data via route parameter
+  https://nextjs.org/docs/app/api-reference/functions/use-search-params#params-optional
+
+Get data from URL:
+
+```ts
+//  .../detail/[countryCode]/page.tsx
+export default async function Page({
+  params: { country: cca3 },
+}: {
+  params: { country: string };
+}) {
+  return (
+    <main className="min-h-[calc(100vh_-_80px)] container mx-auto px-8 py-10 lg:px-4">
+      <BackButton />
+      <Suspense fallback={<DetailSkeleton />}>
+        <CountryDetail cca3={cca3} />
+      </Suspense>
+    </main>
+  );
 }
 ```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
+
+- React Suspense and Skeleton as a fallback
+
+```ts
+import { Suspense } from "react";
+import { DetailSkeleton } from "@/components/ui/skeletons";
+
+// ... somewhere used in a async component
+<Suspense fallback={<DetailSkeleton />}>
+  <CountryDetail cca3={cca3} />
+</Suspense>;
 ```
-
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
-
-**Note: Delete this note and the content within this section and replace with your own learnings.**
 
 ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
-
-**Note: Delete this note and the content within this section and replace with your own plans for continued development.**
-
-### Useful resources
-
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
-
-**Note: Delete this note and replace the list above with resources that helped you during the challenge. These could come in handy for anyone viewing your solution or for yourself when you look back on this project in the future.**
+- I prefer to add pagination for this challenge to enhance performance. Maybe 20 countries for the first load and add a new section with another 20 countries when user scroll to bottom (infinity load).
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
-
-**Note: Delete this note and add/remove/edit lines above based on what links you'd like to share.**
-
-## Acknowledgments
-
-This is where you can give a hat tip to anyone who helped you out on this project. Perhaps you worked in a team or got some inspiration from someone else's solution. This is the perfect place to give them some credit.
-
-**Note: Delete this note and edit this section's content as necessary. If you completed this challenge by yourself, feel free to delete this section entirely.**
+- Website - [Kenny Ng](https://github.com/kennylun123)
+- Frontend Mentor - [@kennylun123](https://www.frontendmentor.io/profile/kennylun123)
+- Twitter - [@kenny_ng123](https://www.twitter.com/kenny_ng123)
