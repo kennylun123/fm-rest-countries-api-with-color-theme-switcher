@@ -27,7 +27,7 @@ const Card = ({
       <div className="w-full p-6">
         <h2 className="font-extrabold text-lg leading-6">{name}</h2>
         <p className="mt-4 font-semibold text-sm">
-          Poplulation:{" "}
+          Population:{" "}
           <span className="font-light">{population.toLocaleString()}</span>
         </p>
         <p className="mt-1 font-semibold text-sm">
