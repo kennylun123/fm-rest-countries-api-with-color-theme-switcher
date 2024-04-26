@@ -55,14 +55,14 @@ const Filter = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="w-[180px] h-14 px-6 bg-primary border-none shadow-md justify-between">
+        <Button className="min-w-[11.25rem] h-14 px-6 bg-primary border-none shadow-md justify-between gap-2">
           {regionParam
             ? options.find((opt) => opt.value === regionParam)?.label
             : "Filter by Region"}
           <ChevronDown className="h-4 w-4 " />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[180px] bg-primary border-none">
+      <DropdownMenuContent className="min-w-[11.25rem] bg-primary border-none">
         <DropdownMenuRadioGroup
           value={regionParam}
           onValueChange={(value) => setSearchParams(value)}
